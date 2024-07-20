@@ -2,8 +2,12 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net"
 	"os"
+
+	"net/http"
+	_ "net/http/pprof"
 
 	"github.com/KaviiSuri/coding-challenges/reddish/serv"
 )
@@ -15,6 +19,9 @@ const (
 )
 
 func main() {
+	go func() {
+		log.Println(http.ListenAndServe("localhost:6060", nil))
+	}()
 	fmt.Printf("Starting redis server on port %s ...\n", SERVER_PORT)
 	server, err := net.Listen(SERVER_TYPE, SERVER_HOST+":"+SERVER_PORT)
 	if err != nil {
